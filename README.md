@@ -1,91 +1,122 @@
-Feature Voting API (FastAPI + MySQL)
+# Feature Voting System
 
-Simple API that allows users to post features and upvote others. This project includes a backend API, database integration, and a minimal HTML frontend for testing.
+A simple FastAPI project where users can post features and upvote them.  
+Includes a backend API, SQLite/MySQL database support, and a basic HTML frontend for testing.
 
-Features
+---
 
-Post new features (title + optional description)
+## Features
 
-List all features with current vote counts
+- Users can create new features.
+- Users can upvote features.
+- API endpoints provide vote counts.
+- Local HTML page to create/list features and vote.
+- Unit tests covering CRUD and endpoints.
 
-Upvote existing features
+---
 
-View vote count per feature
+## Folder Structure
 
-Technology Stack
+FastAPIProject/
+│
+├─ app/
+│ ├─ main.py
+│ ├─ models/
+│ │ ├─ feature.py
+│ │ └─ vote.py
+│ ├─ schemas/
+│ │ ├─ feature.py
+│ │ └─ vote.py
+│ ├─ crud/
+│ │ ├─ feature.py
+│ │ └─ vote.py
+│ ├─ api/
+│ │ ├─ endpoints/
+│ │ │ ├─ features.py
+│ │ │ └─ votes.py
+│ │ └─ deps.py
+│ └─ tests/
+│ └─ test_app.py
+└─ static/
+└─ index.html
 
-Backend: FastAPI
+yaml
+Copy code
 
-Database: MySQL (via SQLAlchemy ORM)
+---
 
-Frontend: Basic HTML + JS (fetch API)
+## Dependencies
 
-Python Version: 3.11+
+Install required Python packages:
 
-Dependencies: see requirements.txt
+```bash
+pip install fastapi uvicorn sqlalchemy pymysql pydantic pytest pytest-asyncio
+Optional (for local HTML testing):
 
-Setup Instructions
-1. Clone the repository
-git clone <your-repo-url>
-cd FastAPIProject
+bash
+Copy code
+pip install requests
+Database
+Example MySQL connection:
 
-2. Create MySQL Database
-CREATE DATABASE products_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'user'@'localhost' IDENTIFIED BY 'user';
-GRANT ALL PRIVILEGES ON products_db.* TO 'user'@'localhost';
-FLUSH PRIVILEGES;
+bash
+Copy code
+mysql+pymysql://user:password@localhost:3306/products_db
+Tables are auto-created by SQLAlchemy (Feature and Vote).
 
+For tests, an in-memory SQLite database is used.
 
-You can change the username/password in app/core/config.py or via the DATABASE_URL environment variable.
+Run the Project
+Start the FastAPI server:
 
-3. Install Python dependencies
-python -m venv .venv
-source .venv/bin/activate   # Linux/Mac
-.venv\Scripts\activate      # Windows
-
-pip install -r requirements.txt
-
-4. Run the backend
+bash
+Copy code
 uvicorn app.main:app --reload
+Visit the API docs:
 
-
-The backend will start at:
-
-http://127.0.0.1:8000
-
-5. Open Swagger UI (API docs)
-
-Visit:
-
+arduino
+Copy code
 http://127.0.0.1:8000/docs
+Test with local HTML:
 
-
-Test all endpoints here
-
-Check feature creation, voting, and vote counts
-
-6. Test with HTML frontend
-
-Open index.html in your browser (or serve it via PyCharm)
-
-Add features
-
-Upvote features
-
-See vote counts update in real time
-
-If you see a CORS error, make sure CORSMiddleware is enabled in app/main.py.
-
+arduino
+Copy code
+open static/index.html in your browser
 API Endpoints
-Endpoint	Method	Description
-/api/features/	POST	Create a new feature
-/api/features/	GET	List all features with vote counts
-/api/votes/{feature_id}	POST	Upvote a feature
-/api/votes/{feature_id}	GET	Get total votes for a feature
-Notes
+GET /api/features/ – List all features with vote counts
 
-No authentication is implemented for simplicity
+POST /api/features/ – Create a new feature
 
-Database tables are auto-created on startup
+POST /api/votes/{feature_id} – Upvote a feature
 
-CORSMiddleware allows frontend access from different origins (dev only)
+GET /api/votes/{feature_id} – Get total votes for a feature
+
+CORS Notes
+If you test from a local HTML page (different origin):
+
+Make sure CORS is enabled in main.py:
+
+python
+Copy code
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # allow all for local testing
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+Running Unit Tests
+bash
+Copy code
+pytest app/tests/test_app.py -v
+Tests cover:
+
+CRUD for Feature
+
+CRUD for Vote
+
+API endpoints
+
+Uses in-memory SQLite for isolation.

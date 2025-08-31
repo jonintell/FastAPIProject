@@ -1,0 +1,89 @@
+# Step 1: Setup project
+I am using pycharm
+Here is my db schema
+mysql+pymysql://****:****@localhost:3306/products_db
+I want to make a FastAPI project for a simple feature voting system. Users can post features and upvote them.
+Give me a good folder structure and files layout for best practices.
+No auth is needed let make it easy and keep things simples with best practice folder and files
+
+---
+
+# Step 2: Models
+Create  models:
+- Feature: id, title, description, created_at
+- Vote: id, feature_id (FK to Feature)
+I need auto commit i don't want people to have to create those tables
+
+---
+
+# Step 3:  schemas
+I want schemas for vote and feature that will be compatible with fastapi
+
+---
+
+# Step 4: CRUD functions
+I need some basic CRUD functions for the project. For features:
+create_feature
+- get_features
+- get_feature
+And for votes:
+- create_vote
+- count_votes
+I want them to return objects, just simple working functions.
+
+---
+
+# Step 5: Endpoints
+Make FastAPI endpoints:
+/api/features/ ET, POST
+/api/votes/{feature_id} POST, GET
+Include vote counts in responses
+
+---
+
+# Step 6: Front
+I want to test from local HTML
+i need to be able to create feature see all features and vote for feature
+
+---
+
+# Step 7:  Issues cors
+Here is my issue i think it is because of cors
+Access to fetch at 'http://127.0.0.1:8000/api/features/' from origin 'http://localhost:63344' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.Understand this error
+index.html?_ijt=lqutaq0enset7687baahuov243&_ij_reload=RELOAD_ON_SAVE:33  GET http://127.0.0.1:8000/api/features/ net::ERR_FAILED 200 (OK)
+loadFeatures @ index.html?_ijt=lqutaq0enset7687baahuov243&_ij_reload=RELOAD_ON_SAVE:33
+(anonymous) @ index.html?_ijt=lqutaq0enset7687baahuov243&_ij_reload=RELOAD_ON_SAVE:74Understand this error
+index.html?_ijt=lqutaq0enset7687baahuov243&_ij_reload=RELOAD_ON_SAVE:33   Uncaught (in promise) TypeError: Failed to fetch
+    at loadFeatures (index.html?_ijt=lqutaq0enset7687baahuov243&_ij_reload=RELOAD_ON_SAVE:33:25)
+    at index.html?_ijt=lqutaq0enset7687baahuov243&_ij_reload=RELOAD_ON_SAVE:74:5
+loadFeatures @ index.html?_ijt=lqutaq0enset7687baahuov243&_ij_reload=RELOAD_ON_SAVE:33
+(anonymous) @ index.html?_ijt=lqutaq0enset7687baahuov243&_ij_reload=RELOAD_ON_SAVE:74Understand this error
+index.html?_ijt=lqutaq0enset7687baahuov243&_ij_reload=RELOAD_ON_SAVE:1 Access to fetch at 'http://127.0.0.1:8000/api/features/' from origin 'http://localhost:63344' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.Understand this error
+index.html?_ijt=lqutaq0enset7687baahuov243&_ij_reload=RELOAD_ON_SAVE:57  POST http://127.0.0.1:8000/api/features/ net::ERR_FAILED
+(anonymous) @ index.html?_ijt=lqutaq0enset7687baahuov243&_ij_reload=RELOAD_ON_SAVE:57Understand this error
+index.html?_ijt=lqutaq0enset7687baahuov243&_ij_reload=RELOAD_ON_SAVE:57   Uncaught (in promise) TypeError: Failed to fetch
+    at HTMLFormElement.<anonymous> (index.html?_ijt=lqutaq0enset7687baahuov243&_ij_reload=RELOAD_ON_SAVE:57:13)
+
+---
+
+# Step 8: Verify everything
+Make me a good read me file to explain that including all those steps
+
+---
+
+#Step 9: let create a test file to have unit tests in my project
+I need a unique test file not too complex to keep it easy and do unit test over all my app
+using pytest
+
+---
+
+#Step 10: issue with httpx
+I can't install httpx for test
+'c:\\users\\jonat\\pycharmprojects\\fastapiproject\\.venv\\lib\\site-packages\\httpx-1.0.dev2.dist-info
+
+---
+
+#Step 11: Read me file update
+Update the read me file and add the dependancies
+I need the read me file in a format where i can do copy past
+then send me the pormpts.txt file with title for each prompt I sent
