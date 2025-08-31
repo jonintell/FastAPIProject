@@ -8,10 +8,10 @@ from app.crud.vote import count_votes
 
 router = APIRouter()
 
+# POST /api/features/ -> create a feature
 @router.post("/", response_model=FeatureSchema)
 def create_feature(feature: FeatureCreate, db: Session = Depends(get_db)):
     created = create_feature_crud(db, feature)
-    # include computed votes in response
     return FeatureSchema(
         id=created.id,
         title=created.title,
@@ -20,10 +20,10 @@ def create_feature(feature: FeatureCreate, db: Session = Depends(get_db)):
         votes=0,
     )
 
+# GET /api/features/ -> list all features with votes
 @router.get("/", response_model=List[FeatureSchema])
 def list_features(db: Session = Depends(get_db)):
     features = get_features(db)
-    # Compute vote counts (simple and clear)
     return [
         FeatureSchema(
             id=f.id,

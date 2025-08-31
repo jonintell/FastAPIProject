@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Feature Voting System</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 2rem auto; }
+    h1 { color: #333; }
+    .feature { border: 1px solid #ccc; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
+    button { padding: 5px 10px; }
+    form { margin-bottom: 2rem; }
+  </style>
+</head>
+<body>
+  <h1>Feature Voting</h1>
+
+  <!-- Form to add a feature -->
+  <form id="featureForm">
+    <h3>Add Feature</h3>
+    <label>Title: <input type="text" id="title" required></label><br><br>
+    <label>Description: <input type="text" id="description"></label><br><br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <h2>Features</h2>
+  <div id="features"></div>
+
+  <script>
+    const API_URL = "http://127.0.0.1:8000/api";
+
+    // Fetch features
+    async function loadFeatures() {
+      const res = await fetch(`${API_URL}/features/`);
+      const data = await res.json();
+      const container = document.getElementById("features");
+      container.innerHTML = "";
+
+      data.forEach(feature => {
+        const div = document.createElement("div");
+        div.className = "feature";
+        div.innerHTML = `
+          <strong>${feature.title}</strong><br>
+          <em>${feature.description || ""}</em><br>
+          Votes: <span id="votes-${feature.id}">${feature.votes}</span><br>
+          <button onclick="vote(${feature.id})">Upvote</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // Add feature
+    document.getElementById("featureForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const title = document.getElementById("title").value;
+      const description = document.getElementById("description").value;
+
+      await fetch(`${API_URL}/features/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, description })
+      });
+
+      e.target.reset();
+      loadFeatures();
+    });
+
+    // Vote
+    async function vote(featureId) {
+      await fetch(`${API_URL}/votes/${featureId}`, { method: "POST" });
+      loadFeatures();
+    }
+
+    // Load on page start
+    loadFeatures();
+  </script>
+</body>
+</html>

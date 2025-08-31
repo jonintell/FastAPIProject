@@ -7,7 +7,8 @@ from app.schemas.vote import Vote as VoteSchema
 
 router = APIRouter()
 
-@router.post("/{feature_id}/vote", response_model=VoteSchema)
+# POST /api/votes/{feature_id} -> upvote a feature
+@router.post("/{feature_id}", response_model=VoteSchema)
 def upvote_feature(feature_id: int, db: Session = Depends(get_db)):
     feature = get_feature(db, feature_id)
     if not feature:
@@ -15,7 +16,8 @@ def upvote_feature(feature_id: int, db: Session = Depends(get_db)):
     vote = create_vote(db, feature_id)
     return VoteSchema(id=vote.id, feature_id=vote.feature_id)
 
-@router.get("/{feature_id}/votes")
+# GET /api/votes/{feature_id} -> get total votes
+@router.get("/{feature_id}")
 def get_feature_votes(feature_id: int, db: Session = Depends(get_db)):
     feature = get_feature(db, feature_id)
     if not feature:
