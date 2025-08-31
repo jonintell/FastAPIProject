@@ -18,6 +18,7 @@ Includes a backend API, SQLite/MySQL database support, and a basic HTML frontend
 ## Folder Structure
 
 FastAPIProject/
+
 │
 ├─ app/
 │ ├─ main.py
@@ -54,13 +55,11 @@ pip install fastapi uvicorn sqlalchemy pymysql pydantic pytest pytest-asyncio
 Optional (for local HTML testing):
 
 bash
-Copy code
 pip install requests
 Database
 Example MySQL connection:
 
 bash
-Copy code
 mysql+pymysql://user:password@localhost:3306/products_db
 Tables are auto-created by SQLAlchemy (Feature and Vote).
 
@@ -70,34 +69,23 @@ Run the Project
 Start the FastAPI server:
 
 bash
-Copy code
 uvicorn app.main:app --reload
 Visit the API docs:
 
-arduino
-Copy code
 http://127.0.0.1:8000/docs
 Test with local HTML:
-
-arduino
-Copy code
 open static/index.html in your browser
+
 API Endpoints
 GET /api/features/ – List all features with vote counts
-
 POST /api/features/ – Create a new feature
-
 POST /api/votes/{feature_id} – Upvote a feature
-
 GET /api/votes/{feature_id} – Get total votes for a feature
 
 CORS Notes
 If you test from a local HTML page (different origin):
-
 Make sure CORS is enabled in main.py:
 
-python
-Copy code
 from fastapi.middleware.cors import CORSMiddleware
 
 app.add_middleware(
@@ -107,16 +95,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
 Running Unit Tests
-bash
-Copy code
+
 pytest app/tests/test_app.py -v
 Tests cover:
 
 CRUD for Feature
-
 CRUD for Vote
 
 API endpoints
-
 Uses in-memory SQLite for isolation.
